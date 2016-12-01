@@ -28,23 +28,37 @@
         volumeUpClass: 'tubular-volume-up',
         volumeDownClass: 'tubular-volume-down',
         increaseVolumeBy: 10,
+		type: 'div',
         start: 0
     };
 
     // methods
 
     var tubular = function(node, options) { // should be called on the wrapper div
+	
+		//alert($(node).width());
+		
         var options = $.extend({}, defaults, options),
             $body = $('body') // cache body node
             $node = $(node); // cache wrapper node
 
+		if(options.type == 'div'){
+			options.width = $node.width();
+		}
+			
         // build container
         var tubularContainer = '<div id="tubular-container" style="overflow: hidden; position: fixed; z-index: 1; width: 100%; height: 100%"><div id="tubular-player" style="position: absolute"></div></div><div id="tubular-shield" style="width: 100%; height: 100%; z-index: 2; position: absolute; left: 0; top: 0;"></div>';
 
-        // set up css prereq's, inject tubular container and set up wrapper defaults
+		// set up css prereq's, inject tubular container and set up wrapper defaults
         $('html,body').css({'width': '100%', 'height': '100%'});
-        $body.prepend(tubularContainer);
-        $node.css({position: 'relative', 'z-index': options.wrapperZIndex});
+        
+		if(options.type == 'div'){
+			$node.prepend(tubularContainer);
+		} else {
+			$body.prepend(tubularContainer);
+			$node.css({position: 'relative', 'z-index': options.wrapperZIndex});
+		}
+        
 
         // set up iframe player, use global scope so YT api can talk
         window.player;

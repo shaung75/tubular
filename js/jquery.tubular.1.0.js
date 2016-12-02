@@ -1,14 +1,11 @@
 /* jQuery tubular plugin
-|* by Sean McCambridge
-|* http://www.seanmccambridge.com/tubular
-|* version: 1.0
-|* updated: October 1, 2012
+|* by Shaun Gill
+|* https://github.com/shaung75/tubular
+|* version: 1.1
+|* updated: December 2, 2016
 |* since 2010
 |* licensed under the MIT License
-|* Enjoy.
-|* 
-|* Thanks,
-|* Sean */
+*/
 
 ;(function ($, window) {
 

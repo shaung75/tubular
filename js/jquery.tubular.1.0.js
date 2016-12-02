@@ -28,7 +28,7 @@
         volumeUpClass: 'tubular-volume-up',
         volumeDownClass: 'tubular-volume-down',
         increaseVolumeBy: 10,
-		type: 'div',
+		type: 'body',
         start: 0
     };
 
@@ -44,16 +44,23 @@
 
 		if(options.type == 'div'){
 			options.width = $node.width();
+			$(node).css({'position': 'relative', 'z-index': '1'});
+			$(node).children().css({'z-index': '10'});
+			// build container
+			var tubularContainer = '<div id="tubular-container" style="overflow: hidden; position: absolute; z-index: -1; width: 100%; height: 100%; top: 0; left: 0;"><div id="tubular-player" style="position: absolute"></div></div><div id="tubular-shield" style="width: 100%; height: 100%; z-index: -1; position: absolute; left: 0; top: 0;"></div>';
+		} else {
+			// build container
+			var tubularContainer = '<div id="tubular-container" style="overflow: hidden; position: fixed; z-index: 1; width: 100%; height: 100%"><div id="tubular-player" style="position: absolute"></div></div><div id="tubular-shield" style="width: 100%; height: 100%; z-index: 2; position: absolute; left: 0; top: 0;"></div>';
 		}
-			
-        // build container
-        var tubularContainer = '<div id="tubular-container" style="overflow: hidden; position: fixed; z-index: 1; width: 100%; height: 100%"><div id="tubular-player" style="position: absolute"></div></div><div id="tubular-shield" style="width: 100%; height: 100%; z-index: 2; position: absolute; left: 0; top: 0;"></div>';
+		
+        
 
 		// set up css prereq's, inject tubular container and set up wrapper defaults
         $('html,body').css({'width': '100%', 'height': '100%'});
         
 		if(options.type == 'div'){
 			$node.prepend(tubularContainer);
+			
 		} else {
 			$body.prepend(tubularContainer);
 			$node.css({position: 'relative', 'z-index': options.wrapperZIndex});
@@ -92,14 +99,22 @@
                 player.seekTo(options.start); // restart
             }
         }
-
+		
         // resize handler updates width, height and offset of player after resize/init
         var resize = function() {
-            var width = $(window).width(),
-                pWidth, // player width, to be defined
-                height = $(window).height(),
-                pHeight, // player height, tbd
-                $tubularPlayer = $('#tubular-player');
+			if(options.type == 'div') {
+				var width = $(node).outerWidth(),
+					pWidth, // player width, to be defined
+					height = $(node).height(),
+					pHeight, // player height, tbd
+					$tubularPlayer = $('#tubular-player');
+			} else {
+				var width = $(window).width(),
+					pWidth, // player width, to be defined
+					height = $(window).height(),
+					pHeight, // player height, tbd
+					$tubularPlayer = $('#tubular-player');
+			}
 
             // when screen aspect ratio differs from video, video must center and underlay one dimension
 
